@@ -1,0 +1,4 @@
+ * Really simple but sufficient combobox plugin for jQuery.
+ * Works with arrow key.
+ * Select input element in general jQuery way and pass an array of options to it.
+ * Demo: http://dl.dropbox.com/u/534/jQuery.simpleCombobox/sample.html
