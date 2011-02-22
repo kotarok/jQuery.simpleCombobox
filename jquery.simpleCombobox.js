@@ -1,4 +1,4 @@
-$.SimpleCombobox = function(elem,options,param){
+$.Combobox = function(elem,options,param){
 
 	var c = {
 		length: 7
@@ -13,8 +13,7 @@ $.SimpleCombobox = function(elem,options,param){
 
 	var makeList = function(options){
 
-		$.each(options,function(i,obj){
-			console.log(i,obj)
+		$.each(options,function(){
 			select.append('<option value="' + this + '">' + this + '</option>')
 		})
 
@@ -27,6 +26,7 @@ $.SimpleCombobox = function(elem,options,param){
 				}
 				if(e.keyCode == 38 && $('option:first-child',this).attr('selected')){ // Up
 					hideList()
+					focusBack();
 				}
 			})
 			.mouseover(function(){
@@ -72,14 +72,19 @@ $.SimpleCombobox = function(elem,options,param){
 	var hideList = function(){
 		select.remove()
 		elem
-			.unbind('focus.combobox')
-			.focus()
-			.bind('focus.combobox',showList)
 			.bind('blur.combobox',hideList)
 	}
 	
+	var focusBack = function(){
+		elem
+			.unbind('focus.combobox')
+			.focus()
+			.bind('focus.combobox',showList)
+	}
+
 	var setValue = function(){
 		hideList();
+		focusBack();
 		if(elem.val() != select.val()){
 			elem
 				.val(select.val())
@@ -90,6 +95,7 @@ $.SimpleCombobox = function(elem,options,param){
 	var setEvent= function(){
 		elem
 			.bind('focus.combobox click.combobox',showList)
+			.bind('blur.combobox',hideList)
 			.bind('keydown.combobox',function(e){
 				if(e.keyCode == 40){ // Down
 					showList()
@@ -104,8 +110,8 @@ $.SimpleCombobox = function(elem,options,param){
 	setEvent();
 }	
 
-$.fn.simpleCombobox = function(options){
+$.fn.combobox = function(options){
 	return this.each(function(){
-		new $.SimpleCombobox($(this),options);
+		new $.Combobox($(this),options);
 	});
 };
